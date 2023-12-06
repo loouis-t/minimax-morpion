@@ -1,34 +1,57 @@
-from node import Node
-
-
 class Tree:
     """
     Classe représentant un arbre de jeu.
     """
 
-    def __init__(self, root: Node):
+    def __init__(self, jeu: list[list[str]]):
         """
-        Initialise un nouvel arbre avec le noeud racine donné.
+        Initialise un nouvel arbre de jeu.
 
         Args:
-            root (Node): Le noeud racine de l'arbre.
+            jeu (list[list[str]]): L'état initial du jeu.
         """
 
-        self.root = root
+        self.jeu = jeu
+        self.children: list["Tree"] = []
 
-    def generate_tree(self, node: Node, depth: int):
+    def get_jeu(self) -> list[list[str]]:
         """
-        Génère l'arbre de jeu à partir du noeud et de la profondeur donnés.
+        Renvoie l'état du jeu à ce noeud.
+
+        Returns:
+            list[list[str]]: L'état du jeu à ce noeud.
+        """
+
+        return self.jeu
+
+    def add_child(self, child: "Tree"):
+        """
+        Ajoute un enfant à ce noeud.
 
         Args:
-            node (Node): Le noeud à partir duquel générer l'arbre.
-            depth (int): La profondeur de l'arbre à générer.
+            child (Tree): L'enfant à ajouter.
         """
 
-        if depth == 0 or node.jeu.is_won():
-            return
-        moves = node.jeu.generate_moves()
-        for move in moves:
-            child = Node(move)
-            node.add_child(child)
-            self.generate_tree(child, depth - 1)
+        self.children.append(child)
+
+    def get_children(self) -> list["Tree"]:
+        """
+        Renvoie les enfants de ce noeud.
+
+        Returns:
+            list[Tree]: Les enfants de ce noeud.
+        """
+
+        return self.children
+
+    def __str__(self, level=0) -> str:
+        """
+        Returns a string representation of the tree.
+
+        Returns:
+            str: A string representation of the tree.
+        """
+        ret = "\t" * level + repr(self.jeu) + "\n"
+        for child in self.children:
+            ret += child.__str__(level + 1)
+        return ret
