@@ -1,6 +1,14 @@
+"""
+Module pour la classe Tree utilisée dans le jeu.
+
+Ce module contient la classe Tree qui représente un arbre de jeu. L'arbre de jeu
+est utilisé pour stocker tous les mouvements possibles dans le jeu.
+"""
+
+
 class Tree:
     """
-    Classe représentant un arbre de jeu.
+    Cette classe représente un arbre de jeu.
     """
 
     def __init__(self, jeu: list[list[str]]):
@@ -46,11 +54,12 @@ class Tree:
 
     def __str__(self, level=0) -> str:
         """
-        Returns a string representation of the tree.
+        Renvoie une représentation sous forme de chaîne de l'arbre.
 
         Returns:
-            str: A string representation of the tree.
+            str: Une représentation sous forme de chaîne de l'arbre.
         """
+
         ret = "\t" * level + repr(self.jeu) + "\n"
         for child in self.children:
             ret += child.__str__(level + 1)
